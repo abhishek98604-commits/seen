@@ -16,11 +16,11 @@ body{background:var(--bg);min-height:100vh}
 .rule{width:36px;height:1px;background:var(--line);margin:1.75rem 0}
 .intent{font-size:15px;line-height:1.9;color:var(--mid);max-width:500px}
 .intent b{font-weight:400;color:var(--ink)}
-.guide-box{margin-top:1.75rem;border:1px solid var(--line);padding:1.5rem 1.75rem;background:var(--white)}
-.guide-head{font-size:11px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:1.25rem}
-.step{display:flex;gap:14px;margin-bottom:.9rem}
+.guide-box{margin-top:1rem;border:1px solid var(--line);padding:1rem 1.25rem}
+.guide-head{font-size:11px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:.75rem}
+.step{display:flex;gap:10px;margin-bottom:.5rem}
 .sn{font-size:11px;color:var(--dim);min-width:14px;padding-top:3px}
-.st{font-size:15px;line-height:1.8}
+.st{font-size:13px;line-height:1.6}
 .st i{color:var(--mid)}
 .time-note{margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--line);font-size:13px;font-style:italic;color:var(--dim)}
 .img-frame{width:100%;aspect-ratio:3/2;overflow:hidden;background:#1a1a1a;position:relative;margin-top:2.25rem}
@@ -300,8 +300,7 @@ function submitEmail(){
   const t=document.getElementById('emailThanks');t.style.display='block';t.classList.add('fade');
 }
 
-function go(dir){idx=(idx+dir+IMAGES.length)%IMAGES.length;resetForImage();loadImage()}
-
+function go(dir){idx=(idx+dir+IMAGES.length)%IMAGES.length;resetForImage();loadImage();document.getElementById('imgFrame').scrollIntoView({behavior:'smooth'})}
 loadImage();
 </script>
 </body>
