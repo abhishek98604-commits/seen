@@ -199,7 +199,7 @@ const VPROMPT={
   stream:d=>`Write 3-4 sentences as stream of consciousness, fragmented and associative, after Virginia Woolf. Scene: ${d}`,
   ekphrasis:d=>`Write a literary ekphrasis (4-5 sentences, tradition of Keats or Auden) describing and interpreting. Scene: ${d}`
 };
-const MOCK=[22,28,30,32,35,36,38,40,41,43,44,45,47,48,50,50,52,53,55,57,60,63,67,72];
+const MOCK=[];
 
 let idx=0,cache={},revealed=false,othersShown=false,userScore=50,emailSubmitted=false;
 
@@ -257,12 +257,17 @@ async function selectVoice(v,btn){
   el.textContent=cache[key];el.classList.remove('fade');void el.offsetWidth;el.classList.add('fade');
 }
 
-function showOthers(){
-  if(MOCK.length===0){document.getElementById('youLabel').textContent='You are the first person to observe this image. Come back soon to see how others see it.';return;}
+async function showOthers(){
+  if(othersShown)return;othersShown=true;
+  saveToSupabase(userScore,'');
+  const res=await fetch(SUPABASE_URL+'/rest/v1/observations?select=score&image_id=eq.'+idx,{headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}});
+  const rows=await res.json();
+  const scores=rows.map(r=>r.score).filter(s=>s!==null);
   const track=document.getElementById('resultsTrack');
   track.querySelectorAll('.odot').forEach(d=>d.remove());
-  const bm={};MOCK.forEach(v=>{const b=Math.round(v/5)*5;bm[b]=(bm[b]||0)+1});
-  MOCK.forEach(v=>{
+  if(scores.length===0){document.getElementById('youLabel').textContent='You are the first person to observe this image. Come back soon to see how others see it.';return;}
+  const bm={};scores.forEach(v=>{const b=Math.round(v/5)*5;bm[b]=(bm[b]||0)+1});
+  scores.forEach(v=>{
     const b=Math.round(v/5)*5;const cnt=bm[b]||1;
     const sz=Math.min(8+cnt*2,20);const op=Math.max(0.2,0.65-cnt*0.05);
     const d=document.createElement('div');d.className='odot';
@@ -272,9 +277,10 @@ function showOthers(){
   const ud=document.createElement('div');ud.className='odot';
   ud.style.cssText=`left:${userScore}%;top:50%;width:14px;height:14px;background:#1a1a1a;opacity:1;z-index:10`;
   track.appendChild(ud);
-  const below=MOCK.filter(v=>v<userScore).length;const pct=Math.round((below/MOCK.length)*100);
+  const below=scores.filter(v=>v<userScore).length;
+  const pct=Math.round((below/scores.length)*100);
   const msg=userScore<30?`Your observation took its own path. ${100-pct}% of observers felt closer to the AI — but a different eye sees different things.`:userScore<55?`You are in the middle of the range — a typical attentive observer. ${pct}% of people scored at or below this point.`:userScore<78?`A close reading. You caught most of what the AI noticed. ${pct}% of observers scored at or below you.`:`Very close. Your observation and the AI's were nearly aligned. You are in the top ${100-pct}% of observers so far.`;
-  const yl=document.getElementById('youLabel');yl.textContent=msg;yl.classList.add('fade');
+  document.getElementById('youLabel').textContent=msg;
 }
 async function saveToSupabase(score, email){
   await fetch(SUPABASE_URL+'/rest/v1/observations',{
