@@ -84,8 +84,7 @@ body{background:var(--bg);min-height:100vh}
 
   <div class="img-frame">
     <div class="img-ph" id="imgPh">—</div>
-    <img id="mainImg" src="" alt="" style="opacity:0" onload="onLoad()">
-  </div>
+    <img id="mainImg" src="" alt="" style="opacity:0" onload="onLoad()" onerror="onImgError()">  </div>
   <div class="credit" id="credit"></div>
   <div class="cta-area">
     <button class="btn" id="revealBtn" onclick="reveal()">I have looked. Show me.</button>
@@ -210,6 +209,7 @@ function buildPgDots(){
   IMAGES.forEach((_,i)=>{const d=document.createElement('div');d.className='pgdot'+(i===idx?' on':'');el.appendChild(d)});
 }
 function onLoad(){document.getElementById('imgPh').style.display='none';document.getElementById('mainImg').style.opacity='1'}
+function onImgError(){document.getElementById('imgPh').textContent='Image unavailable — click next';document.getElementById('imgPh').style.display='flex';}
 function loadImage(){
   const im=IMAGES[idx];const el=document.getElementById('mainImg');
   el.style.opacity='0';document.getElementById('imgPh').style.display='flex';
