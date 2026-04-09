@@ -204,7 +204,7 @@ function loadImage(){
 }
 function resetForImage(){
   revealed=false;othersShown=false;userScore=50;
-  ['secPlain','secVoices','secSlider','secs','secEmail'].forEach(lock);
+  ['secPlain','secVoices','secSlider','secResults','secEmail'].forEach(lock);
   document.getElementById('revealBtn').style.display='';
   document.getElementById('plainText').textContent='';
   document.getElementById('altText').textContent='';
@@ -233,7 +233,7 @@ async function reveal(){
   if(!cache[key]){const t=await callAPI(`Write 3-4 plain clear sentences observing this photograph. Only what is literally visible. No metaphors. Scene: ${IMAGES[idx].desc}`);cache[key]=t||FB.plain[idx]}
   document.getElementById('plainText').textContent=cache[key];
   document.getElementById('plainText').classList.add('fade');
-  setTimeout(()=>{unlock('secVoices');unlock('secSlider');unlock('secs');unlock('secEmail')},400);
+  setTimeout(()=>{unlock('secVoices');unlock('secSlider');unlock('secResults');unlock('secEmail')},400);
 }
 
 async function selectVoice(v,btn){
@@ -250,7 +250,7 @@ async function showOthers(){
   const res=await fetch(SUPABASE_URL+'/rest/v1/observations?select=score&image_id=eq.'+idx,{headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}});
   const rows=await res.json();
   const scores=rows.map(r=>r.score).filter(s=>s!==null);
-  const track=document.getElementById('resultsTrack');
+  const track=document.getElementById('sTrack');
   track.querySelectorAll('.odot').forEach(d=>d.remove());
   if(scores.length===0){document.getElementById('youLabel').textContent='You are the first person to observe this image. Come back soon to see how others see it.';return;}
   const bm={};scores.forEach(v=>{const b=Math.round(v/5)*5;bm[b]=(bm[b]||0)+1});
