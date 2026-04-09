@@ -164,6 +164,8 @@ body{background:var(--bg);min-height:100vh}
 </div>
 
 <script>
+const SUPABASE_URL = 'https://pihvrdqycyfaecwksxrz.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_ysv8g6XIA2KGiQ7MWVxLaw_fpIxpjM9';
 const IMAGES=[
   {url:"https://images.unsplash.com/photo-1541417904950-b855846fe074?w=900&q=80",credit:"Rain, reflection, movement. Night street.",desc:"A person runs across a wet street at night. The pavement reflects the streetlights in long broken streaks. The figure is mid-stride, coat lifting. The rest of the street is empty."},
   {url:"https://images.unsplash.com/photo-1509909756405-be0199881695?w=900&q=80",credit:"Old hands, still life. Light from one side.",desc:"A pair of elderly hands rest on a surface, one folded over the other. The skin is deeply lined. Light comes from one side, casting knuckles into sharp relief. No other subject."},
@@ -258,9 +260,20 @@ function showOthers(){
   const msg=userScore<30?`Your observation took its own path. ${100-pct}% of observers felt closer to the AI — but a different eye sees different things.`:userScore<55?`You are in the middle of the range — a typical attentive observer. ${pct}% of people scored at or below this point.`:userScore<78?`A close reading. You caught most of what the AI noticed. ${pct}% of observers scored at or below you.`:`Very close. Your observation and the AI's were nearly aligned. You are in the top ${100-pct}% of observers so far.`;
   const yl=document.getElementById('youLabel');yl.textContent=msg;yl.classList.add('fade');
 }
-
+async function saveToSupabase(score, email){
+  await fetch(SUPABASE_URL+'/rest/v1/observations',{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'apikey':SUPABASE_KEY,
+      'Authorization':'Bearer '+SUPABASE_KEY
+    },
+    body:JSON.stringify({image_id:String(idx),score:score,email:email||null})
+  });
+}
 function submitEmail(){
   if(emailSubmitted)return;emailSubmitted=true;
+  saveToSupabase(userScore, document.getElementById('emailInput').value);
   document.getElementById('emailFormWrap').style.display='none';
   const t=document.getElementById('emailThanks');t.style.display='block';t.classList.add('fade');
 }
