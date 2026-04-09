@@ -248,7 +248,7 @@ async function selectVoice(v,btn){
 }
 
 function showOthers(){
-  if(othersShown)return;othersShown=true;
+  if(MOCK.length===0){document.getElementById('youLabel').textContent='You are the first person to observe this image. Come back soon to see how others see it.';return;}
   const track=document.getElementById('resultsTrack');
   track.querySelectorAll('.odot').forEach(d=>d.remove());
   const bm={};MOCK.forEach(v=>{const b=Math.round(v/5)*5;bm[b]=(bm[b]||0)+1});
