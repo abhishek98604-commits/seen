@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seen.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--serif:'Playfair Display',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--ink:#1a1a1a;--mid:#6b6b6b;--dim:#b0b0b0;--line:#e0e0e0;--white:#ffffff;--bg:#fafafa}
+body{background:var(--bg);min-height:100vh}
+.w{font-family:var(--sans);font-weight:300;font-size:15px;max-width:620px;margin:0 auto;padding:3rem 2rem 5rem;color:var(--ink)}
+.wordmark{font-family:var(--serif);font-size:34px;font-weight:400;letter-spacing:.01em}
+.tagline{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--mid);margin-top:6px;line-height:1.7}
+.rule{width:36px;height:1px;background:var(--line);margin:1.75rem 0}
+.intent{font-size:15px;line-height:1.9;color:var(--mid);max-width:500px}
+.intent b{font-weight:400;color:var(--ink)}
+.guide-box{margin-top:1.75rem;border:1px solid var(--line);padding:1.5rem 1.75rem;background:var(--white)}
+.guide-head{font-size:11px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:1.25rem}
+.step{display:flex;gap:14px;margin-bottom:.9rem}
+.sn{font-size:11px;color:var(--dim);min-width:14px;padding-top:3px}
+.st{font-size:15px;line-height:1.8}
+.st i{color:var(--mid)}
+.time-note{margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--line);font-size:13px;font-style:italic;color:var(--dim)}
+.img-frame{width:100%;aspect-ratio:3/2;overflow:hidden;background:#ccc;position:relative;margin-top:2.25rem}
+.img-frame img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .6s;filter:grayscale(90%) contrast(1.08)}
+.img-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.credit{font-size:11px;color:var(--dim);margin-top:.5rem;font-style:italic}
+.cta-area{margin-top:1.75rem;min-height:44px;display:flex;align-items:center;gap:16px}
+.btn{font-family:var(--sans);font-weight:400;font-size:13px;letter-spacing:.06em;background:var(--ink);color:var(--white);border:none;padding:10px 24px;cursor:pointer;transition:opacity .2s}
+.btn:hover{opacity:.72}
+.cta-hint{font-size:12px;font-style:italic;color:var(--dim)}
+.lbl{font-size:11px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+.srule{width:100%;height:1px;background:var(--line);margin:2rem 0}
+.obs-body{font-size:15px;line-height:2;min-height:96px}
+.obs-note{font-size:12px;font-style:italic;color:var(--dim);margin-top:.75rem;padding:10px 14px;border-left:2px solid var(--line)}
+.voice-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.75rem}
+.vbtn{font-family:var(--sans);font-weight:300;font-size:12px;padding:6px 16px;border:1px solid var(--line);background:transparent;color:var(--mid);cursor:pointer;transition:all .15s;letter-spacing:.04em}
+.vbtn.on,.vbtn:hover{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.vdesc{font-size:12px;font-style:italic;color:var(--dim);margin-top:.75rem;height:18px;overflow:hidden}
+.alt-body{font-size:15px;line-height:2;margin-top:1rem;min-height:96px}
+.track-ends{display:flex;justify-content:space-between;font-size:12px;color:var(--mid);margin-bottom:5px}
+.track{position:relative;height:24px;cursor:pointer;user-select:none}
+.track-line{position:absolute;top:50%;left:0;right:0;height:1px;background:var(--ink);transform:translateY(-50%)}
+.end-dot{position:absolute;top:50%;width:8px;height:8px;border-radius:50%;background:var(--ink);transform:translate(-50%,-50%)}
+.user-dot{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:var(--ink);transform:translate(-50%,-50%);z-index:10;transition:left .04s}
+.range-inp{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;margin:0;height:100%}
+.odot{position:absolute;top:50%;border-radius:50%;transform:translate(-50%,-50%);z-index:5;pointer-events:none}
+.email-row{display:flex;gap:10px;margin-top:.75rem;flex-wrap:wrap}
+.email-input{font-family:var(--sans);font-weight:300;font-size:14px;border:1px solid var(--line);padding:9px 14px;color:var(--ink);flex:1;min-width:180px;outline:none;background:var(--white)}
+.email-input:focus{border-color:var(--mid)}
+.nav-row{display:flex;align-items:center;gap:14px;margin-top:2.75rem;padding-top:1.5rem;border-top:1px solid var(--line)}
+.nav-btn{font-family:var(--sans);font-weight:300;font-size:12px;background:none;border:none;color:var(--mid);cursor:pointer;padding:0;letter-spacing:.04em}
+.nav-btn:hover{color:var(--ink)}
+.pgdots{display:flex;gap:5px;margin-left:auto;align-items:center}
+.pgdot{width:4px;height:4px;border-radius:50%;background:var(--line)}
+.pgdot.on{background:var(--ink)}
+.fade{animation:fi .45s ease both}
+@keyframes fi{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.locked{visibility:hidden;opacity:0;transition:opacity .5s ease,visibility .5s ease}
+.unlocked{visibility:visible;opacity:1}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="wordmark">Seen.</div>
+  <div class="tagline">An open exercise in looking — for artists, writers, and the quietly curious.</div>
+  <div class="rule"></div>
+  <div class="intent">
+    <b>What is this?</b> A photograph appears. You look — really look — for two or three minutes. Then you see how an AI observed the same scene. Compare. Notice what you caught that it missed, and what slipped past you.<br><br>
+    <b>One thing to know:</b> this AI was calibrated as a <i>normal, attentive observer</i> — not a professional or critic. This is not a test. It is a mirror for how you naturally see.
+  </div>
+
+  <div class="guide-box">
+    <div class="guide-head">How to look — about 2 minutes</div>
+    <div class="step"><span class="sn">1</span><span class="st">Look at the photograph. <i>Don't analyse yet — just feel what it does to you first.</i></span></div>
+    <div class="step"><span class="sn">2</span><span class="st">Find the subject. <i>What is it doing, or not doing? Where does it sit in the frame?</i></span></div>
+    <div class="step"><span class="sn">3</span><span class="st">Follow the light. <i>Where does it land? What does it leave in shadow?</i></span></div>
+    <div class="step"><span class="sn">4</span><span class="st">Listen. <i>If this image had sound, what would you hear?</i></span></div>
+    <div class="step"><span class="sn">5</span><span class="st">Feel the mood. <i>Stillness, tension, warmth — what hangs in the air?</i></span></div>
+    <div class="time-note">Hold those thoughts. When you are ready — click below.</div>
+  </div>
+
+  <div class="img-frame">
+    <div class="img-ph" id="imgPh">—</div>
+    <img id="mainImg" src="" alt="" style="opacity:0" onload="onLoad()">
+  </div>
+  <div class="credit" id="credit"></div>
+  <div class="cta-area">
+    <button class="btn" id="revealBtn" onclick="reveal()">I have looked. Show me.</button>
+    <span class="cta-hint">Plain observation first.</span>
+  </div>
+
+  <div class="locked" id="secPlain">
+    <div class="srule"></div>
+    <div class="lbl">What the AI saw — plain</div>
+    <div class="obs-body" id="plainText"></div>
+    <div class="obs-note">Calibrated as an average attentive observer — not a specialist. It sees what most present, curious people would notice.</div>
+  </div>
+
+  <div class="locked" id="secVoices">
+    <div class="srule"></div>
+    <div class="lbl">Explore other ways of seeing the same scene</div>
+    <div class="voice-row">
+      <button class="vbtn" onclick="selectVoice('poetic',this)">Poetic</button>
+      <button class="vbtn" onclick="selectVoice('stream',this)">Stream of thought</button>
+      <button class="vbtn" onclick="selectVoice('ekphrasis',this)">Ekphrasis</button>
+    </div>
+    <div class="vdesc" id="voiceDesc">Each voice is a different literary tradition for looking.</div>
+    <div class="alt-body" id="altText"></div>
+  </div>
+
+  <div class="locked" id="secSlider">
+    <div class="srule"></div>
+    <div class="lbl">How close were you?</div>
+    <div style="font-size:15px;line-height:1.8;margin-bottom:1.25rem;color:var(--ink)">Drag the dot to where your observation landed — compared to what the AI noticed.</div>
+    <div class="track-ends"><span>Not at all</span><span>Very close</span></div>
+    <div class="track" id="userTrack">
+      <div class="track-line"></div>
+      <div class="end-dot" style="left:0"></div>
+      <div class="end-dot" style="left:100%"></div>
+      <div class="user-dot" id="userDot" style="left:50%"></div>
+      <input type="range" class="range-inp" id="matchSlider" min="0" max="100" value="50" step="1" oninput="moveUserDot(this.value)">
+    </div>
+    <div style="margin-top:1.25rem;min-height:44px">
+      <button class="btn" onclick="showOthers()">See how others saw it</button>
+    </div>
+  </div>
+
+  <div class="locked" id="secResults">
+    <div class="srule"></div>
+    <div class="lbl">Results of others</div>
+    <div class="track-ends"><span>Not at all</span><span>Very close</span></div>
+    <div class="track" id="resultsTrack">
+      <div class="track-line"></div>
+      <div class="end-dot" style="left:0"></div>
+      <div class="end-dot" style="left:100%"></div>
+    </div>
+    <div style="min-height:64px;margin-top:1.25rem">
+      <div id="youLabel" style="font-family:var(--serif);font-size:14px;font-style:italic;color:var(--mid);line-height:1.7"></div>
+    </div>
+  </div>
+
+  <div class="locked" id="secEmail">
+    <div class="srule"></div>
+    <div class="lbl">Stay close to the work</div>
+    <div style="font-size:15px;line-height:1.8;color:var(--mid)">Leave your email and we will invite you to future experiences — new photographs, new ways of looking.</div>
+    <div id="emailFormWrap">
+      <div class="email-row">
+        <input class="email-input" type="email" id="emailInput" placeholder="your@email.com">
+        <button class="btn" onclick="submitEmail()">Send</button>
+      </div>
+      <div style="font-size:11px;font-style:italic;color:var(--dim);margin-top:.5rem">No account needed. Never shared.</div>
+    </div>
+    <div id="emailThanks" style="display:none;font-size:14px;font-style:italic;color:var(--mid);padding:12px 0;min-height:44px">Thank you — we will be in touch when the next experience is ready.</div>
+  </div>
+
+  <div class="nav-row">
+    <button class="nav-btn" onclick="go(-1)">← previous</button>
+    <button class="nav-btn" onclick="go(1)">next image →</button>
+    <div class="pgdots" id="pgDots"></div>
+  </div>
+</div>
+
+<script>
+const IMAGES=[
+  {url:"https://images.unsplash.com/photo-1541417904950-b855846fe074?w=900&q=80",credit:"Rain, reflection, movement. Night street.",desc:"A person runs across a wet street at night. The pavement reflects the streetlights in long broken streaks. The figure is mid-stride, coat lifting. The rest of the street is empty."},
+  {url:"https://images.unsplash.com/photo-1509909756405-be0199881695?w=900&q=80",credit:"Old hands, still life. Light from one side.",desc:"A pair of elderly hands rest on a surface, one folded over the other. The skin is deeply lined. Light comes from one side, casting knuckles into sharp relief. No other subject."},
+  {url:"https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=900&q=80",credit:"Child and light — afternoon, open window.",desc:"A child sits near a window, looking out. Light falls across half their face. Expression unreadable — focused on something beyond the frame. The room behind is dark."}
+];
+const FB={
+  plain:["A figure mid-stride across wet pavement at night. The ground reflects the streetlights in broken lines. The coat lifts slightly. The rest of the street offers nothing else.","The hands are the entire world of this photograph. Decades written in each line. Light arrives from one side only. Everything soft has been replaced by what endures.","The child sits at the edge of two worlds — the dark room and the light beyond. Half the face is visible. Whatever they are watching, we cannot see it."],
+  poetic:["Wet stone holds the whole sky upside down.\nOne figure, one stride —\nthe city doubles itself in puddles\nand doesn't notice.","These hands have held everything.\nNow they hold each other,\nquietly, in the only light\nwilling to stay.","Half in the room, half in the world —\nthe child looks out\nwhere we cannot follow,\ninto whatever the light is saying."],
+  stream:["Running, and the street wet, and everything reflected — two cities really, the real one above and the trembling one below, one figure between them, coat up, mid-air, already gone.","Hands like this you don't photograph, you read — every line a year or several, and the light seems to know that, coming from one side only, as if it came to pay its respects.","Half dark, half lit, and the child between them, looking out — you wonder if it's something ordinary or something only they can see, and the room behind doesn't care either way."],
+  ekphrasis:["The photograph understands something about cities at night that daylight cannot: rain is the city's unconscious. This figure is not fleeing — they are completing a circuit between two versions of the same street. The blur is the camera confessing that some moments resist being fixed.","To photograph hands is to photograph time made visible. These do not gesture or reach — they simply rest, and in resting communicate more than most faces in full expression. One light, one surface, no sentiment.","The child at the window is one of painting's oldest subjects — the figure between interior and exterior. What makes this photograph unusual is its patience: it does not reveal what the child sees, and in withholding that, asks us to stay in the room with the not-knowing."]
+};
+const VDESC={poetic:"Imagist lyric — after Mary Oliver, Seamus Heaney. The scene as feeling.",stream:"Stream of consciousness — after Virginia Woolf. The mind wandering while looking.",ekphrasis:"Literary ekphrasis — after Keats, Auden. Description and interpretation woven."};
+const VPROMPT={
+  poetic:d=>`Write a short poetic observation (3-4 lines, lyrical, no forced rhyme) about this photograph. Scene: ${d}`,
+  stream:d=>`Write 3-4 sentences as stream of consciousness, fragmented and associative, after Virginia Woolf. Scene: ${d}`,
+  ekphrasis:d=>`Write a literary ekphrasis (4-5 sentences, tradition of Keats or Auden) describing and interpreting. Scene: ${d}`
+};
+const MOCK=[22,28,30,32,35,36,38,40,41,43,44,45,47,48,50,50,52,53,55,57,60,63,67,72];
+
+let idx=0,cache={},revealed=false,othersShown=false,userScore=50,emailSubmitted=false;
+
+function unlock(id){document.getElementById(id).classList.add('unlocked')}
+function lock(id){document.getElementById(id).classList.remove('unlocked')}
+function buildPgDots(){
+  const el=document.getElementById('pgDots');el.innerHTML='';
+  IMAGES.forEach((_,i)=>{const d=document.createElement('div');d.className='pgdot'+(i===idx?' on':'');el.appendChild(d)});
+}
+function onLoad(){document.getElementById('imgPh').style.display='none';document.getElementById('mainImg').style.opacity='1'}
+function loadImage(){
+  const im=IMAGES[idx];const el=document.getElementById('mainImg');
+  el.style.opacity='0';document.getElementById('imgPh').style.display='flex';
+  el.src=im.url;document.getElementById('credit').textContent=im.credit;buildPgDots();
+}
+function resetForImage(){
+  revealed=false;othersShown=false;userScore=50;
+  ['secPlain','secVoices','secSlider','secResults','secEmail'].forEach(lock);
+  document.getElementById('revealBtn').style.display='';
+  document.getElementById('plainText').textContent='';
+  document.getElementById('altText').textContent='';
+  document.getElementById('voiceDesc').textContent='Each voice is a different literary tradition for looking.';
+  document.querySelectorAll('.vbtn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('matchSlider').value=50;
+  document.getElementById('userDot').style.left='50%';
+  document.getElementById('resultsTrack').querySelectorAll('.odot').forEach(d=>d.remove());
+  document.getElementById('youLabel').textContent='';
+}
+function moveUserDot(v){userScore=parseInt(v);document.getElementById('userDot').style.left=v+'%'}
+
+async function callAPI(prompt){
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]})});
+    const d=await r.json();return d?.content?.[0]?.text||null;
+  }catch(e){return null}
+}
+
+async function reveal(){
+  if(revealed)return;revealed=true;
+  document.getElementById('revealBtn').style.display='none';
+  unlock('secPlain');
+  document.getElementById('plainText').textContent='Looking…';
+  const key=idx+'_plain';
+  if(!cache[key]){const t=await callAPI(`Write 3-4 plain clear sentences observing this photograph. Only what is literally visible. No metaphors. Scene: ${IMAGES[idx].desc}`);cache[key]=t||FB.plain[idx]}
+  document.getElementById('plainText').textContent=cache[key];
+  document.getElementById('plainText').classList.add('fade');
+  setTimeout(()=>{unlock('secVoices');unlock('secSlider');unlock('secResults');unlock('secEmail')},400);
+}
+
+async function selectVoice(v,btn){
+  document.querySelectorAll('.vbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  document.getElementById('voiceDesc').textContent=VDESC[v];
+  const key=idx+'_'+v;const el=document.getElementById('altText');el.textContent='Writing…';
+  if(!cache[key]){const t=await callAPI(VPROMPT[v](IMAGES[idx].desc));cache[key]=t||FB[v][idx]}
+  el.textContent=cache[key];el.classList.remove('fade');void el.offsetWidth;el.classList.add('fade');
+}
+
+function showOthers(){
+  if(othersShown)return;othersShown=true;
+  const track=document.getElementById('resultsTrack');
+  track.querySelectorAll('.odot').forEach(d=>d.remove());
+  const bm={};MOCK.forEach(v=>{const b=Math.round(v/5)*5;bm[b]=(bm[b]||0)+1});
+  MOCK.forEach(v=>{
+    const b=Math.round(v/5)*5;const cnt=bm[b]||1;
+    const sz=Math.min(8+cnt*2,20);const op=Math.max(0.2,0.65-cnt*0.05);
+    const d=document.createElement('div');d.className='odot';
+    d.style.cssText=`left:${v}%;top:50%;width:${sz}px;height:${sz}px;background:#999;opacity:${op}`;
+    track.appendChild(d);
+  });
+  const ud=document.createElement('div');ud.className='odot';
+  ud.style.cssText=`left:${userScore}%;top:50%;width:14px;height:14px;background:#1a1a1a;opacity:1;z-index:10`;
+  track.appendChild(ud);
+  const below=MOCK.filter(v=>v<userScore).length;const pct=Math.round((below/MOCK.length)*100);
+  const msg=userScore<30?`Your observation took its own path. ${100-pct}% of observers felt closer to the AI — but a different eye sees different things.`:userScore<55?`You are in the middle of the range — a typical attentive observer. ${pct}% of people scored at or below this point.`:userScore<78?`A close reading. You caught most of what the AI noticed. ${pct}% of observers scored at or below you.`:`Very close. Your observation and the AI's were nearly aligned. You are in the top ${100-pct}% of observers so far.`;
+  const yl=document.getElementById('youLabel');yl.textContent=msg;yl.classList.add('fade');
+}
+
+function submitEmail(){
+  if(emailSubmitted)return;emailSubmitted=true;
+  document.getElementById('emailFormWrap').style.display='none';
+  const t=document.getElementById('emailThanks');t.style.display='block';t.classList.add('fade');
+}
+
+function go(dir){idx=(idx+dir+IMAGES.length)%IMAGES.length;resetForImage();loadImage()}
+
+loadImage();
+</script>
+</body>
+</html>
