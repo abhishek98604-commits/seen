@@ -287,8 +287,7 @@ function submitEmail(){
   const t=document.getElementById('emailThanks');t.style.display='block';t.classList.add('fade');
 }
 
-function go(dir){idx=(idx+dir+IMAGES.length)%IMAGES.length;resetForImage();loadImage();window.scrollTo({top:document.getElementById('imgFrame').offsetTop-20,behavior:'smooth'}))}
-loadImage();
+function go(dir){idx=(idx+dir+IMAGES.length)%IMAGES.length;resetForImage();loadImage();document.getElementById('imgFrame').scrollIntoView({block:'start',behavior:'smooth'})}
 </script>
 </body>
 </html>
